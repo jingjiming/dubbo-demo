@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<configuration>
+	<!-- ********************(1)Custom Variable******************** -->
+	<!-- *Log level* -->
+	<property name="log.level" value="DEBUG" />
+	<!-- *Project Name* -->
+	<property name="log.projectname" value="dubbo-consumer-web" />
+	<!-- *Log file name* -->
+	<property name="log.storefilepath" value="${catalina_home:-.}/logs/${log.projectname}" />
+    <!-- *Log format pattern* -->
+	<property name="log.pattern" value="[%-5level][%d{yyyy-MM-dd HH:mm:ss.SSS}] %logger{80} - %msg%n"/>
+	<!-- ********************(1)Custom Variable******************** -->
+
+	<!-- ********************(2)Define appender******************** -->
+	<!-- Console Appender-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"> 
+        <encoder charset="UTF-8"> 
+            <pattern>${log.pattern}</pattern> 
+        </encoder> 
+    </appender>   
+  	<!-- RollingFileAppender -->
+    <appender name="ROLLINGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder charset="UTF-8"> 
+            <pattern>${log.pattern}</pattern> 
+        </encoder>  
+        <file>${log.storefilepath}.log</file><!-- Log file --> 
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter"> 
+            <level>${log.level}</level>
+        </filter> 
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy"> 
+            <fileNamePattern>${log.storefilepath}.log%i.zip</fileNamePattern><!-- zip log file  --> 
+            <minIndex>1</minIndex>
+			<maxIndex>7</maxIndex>
+        </rollingPolicy> 
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy"> 
+            <maxFileSize>30MB</maxFileSize><!-- file max size,trigger for zip --> 
+        </triggeringPolicy> 
+    </appender> 
+    <!-- ********************(2)Define appender******************** -->
+
+  	<!-- ********************(3)Block setting********************** -->
+
+	<!-- ********************(3)Block setting********************** -->
+
+	<!-- ********************(4)Enable above appender************** -->
+    <root level="${log.level}"> 
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="ROLLINGFILE"/> 
+    </root>
+	<!-- ********************(4)Enable above appender************** -->
+</configuration>
